@@ -14,13 +14,13 @@ export type MenuDish = { id: string; category: string; name: string; description
 export const assets = { hero, pasta, seafood, wine, steak, pizza, tiramisu, interior };
 
 export const restaurant = {
-  name: "La Locanda del Tempio",
-  addressLines: ["Via di Pietra, 85", "00186 Roma RM", "Italia"],
-  phoneDisplay: "+39 06 4754 5886",
-  phoneHref: "tel:+390647545886",
-  email: "mcristorazionesrl@gmail.com",
-  facebook: "https://www.facebook.com/lalocandadeltempioroma",
-  map: "https://www.google.com/maps/search/?api=1&query=Via+di+Pietra+85+00186+Roma+RM+Italy",
+  name: "Demo Trattoria",
+  addressLines: ["Example Street, 123", "00000 Demo City", "Demo Country"],
+  phoneDisplay: "+1 555 010 0123",
+  phoneHref: "tel:+15550100123",
+  email: "hello@example.com",
+  facebook: "https://example.com/social",
+  map: "https://example.com/location",
 };
 
 export const categories: { id: string; label: Localized }[] = [

@@ -7,11 +7,12 @@ import { useLanguage } from "@/lib/i18n";
 import { DepthCard } from "./DepthCard";
 const photos = [
   { src: assets.pasta, cat: "Piatti", name: "Cacio e pepe" }, { src: assets.interior, cat: "Interni", name: "Atmosfera romana" },
-  { src: assets.seafood, cat: "Piatti", name: "Sapori del mare" }, { src: assets.wine, cat: "Roma", name: "Aperitivo a Roma" },
+    { src: assets.pasta, cat: "Piatti", name: "Cacio e pepe" }, { src: assets.interior, cat: "Interni", name: "Atmosfera mediterranea" },
+  { src: assets.seafood, cat: "Piatti", name: "Sapori del mare" }, { src: assets.wine, cat: "Demo City", name: "Aperitivo a Demo City" },
   { src: assets.steak, cat: "Dining", name: "Dalla terra" }, { src: assets.pizza, cat: "Piatti", name: "Pizza italiana" },
-  { src: assets.tiramisu, cat: "Atmosfera", name: "Dolce italiano" }, { src: assets.hero, cat: "Roma", name: "Roma di sera" },
+  { src: assets.tiramisu, cat: "Atmosfera", name: "Dolce italiano" }, { src: assets.hero, cat: "Demo City", name: "Demo City di sera" },
 ];
-const filters = ["Tutto", "Piatti", "Interni", "Atmosfera", "Dining", "Roma"];
+const filters = ["Tutto", "Piatti", "Interni", "Atmosfera", "Dining", "Demo City"];
 export function GalleryExperience() {
   const { text } = useLanguage(); const [filter, setFilter] = useState("Tutto"); const [selected, setSelected] = useState<number | null>(null);
   const visible = photos.filter((p) => filter === "Tutto" || p.cat === filter);
