@@ -1,0 +1,25 @@
+import { Search, Utensils, X } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { assets, categories, menuDishes, type MenuDish } from "@/data/content";
+import { useLanguage } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
+import { DepthCard } from "./DepthCard";
+
+export function MenuExperience() {
+  const { lang, text } = useLanguage();
+  const [category, setCategory] = useState("all");
+  const [query, setQuery] = useState("");
+  const [selected, setSelected] = useState<MenuDish | null>(null);
+  const filtered = useMemo(() => menuDishes.filter((dish) => (category === "all" || dish.category === category) && `${dish.name} ${dish.description.it} ${dish.description.en}`.toLowerCase().includes(query.toLowerCase())), [category, query]);
+  const categoryName = (id: string) => categories.find((cat) => cat.id === id)?.label[lang] ?? id;
+  return <>
+    <div className="sticky top-[72px] z-20 border-y border-border bg-background/95 backdrop-blur-xl"><div className="mx-auto max-w-[1440px] px-5 py-4 lg:px-10"><div className="relative mb-3 max-w-sm"><Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} /><Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={text({ it: "Cerca un piatto…", en: "Search dishes…" })} className="h-11 pl-10 pr-10" />{query && <Button variant="ghost" size="icon" aria-label="Reset search" onClick={() => setQuery("")} className="absolute right-1 top-1"><X /></Button>}</div><div className="no-scrollbar flex gap-2 overflow-x-auto pb-1"><Button size="sm" variant={category === "all" ? "default" : "outline"} onClick={() => setCategory("all")}>{text({ it: "Tutto", en: "All" })}</Button>{categories.map((cat) => <Button key={cat.id} size="sm" variant={category === cat.id ? "default" : "outline"} className="shrink-0" onClick={() => setCategory(cat.id)}>{cat.label[lang]}</Button>)}</div></div></div>
+    <div className="section-shell pt-12"><p className="mb-8 text-sm text-muted-foreground">{text({ it: "Selezione dimostrativa basata su esempi pubblici. Prezzi e allergeni non sono mostrati perché non verificati.", en: "Demonstration selection based on public examples. Prices and allergens are omitted because they are unverified." })}</p>
+      {filtered.length ? <div className="grid gap-px border border-border bg-border md:grid-cols-2 lg:grid-cols-3">{filtered.map((dish) => <DepthCard key={dish.id} className="bg-background"><button className="group flex h-full min-h-44 w-full items-start gap-5 p-5 text-left focus-ring" onClick={() => setSelected(dish)}>{dish.image ? <img src={dish.image} alt={`Editorial image: ${dish.name}`} loading="lazy" width={1280} height={1536} className="h-28 w-24 shrink-0 object-cover transition-transform duration-500 group-hover:scale-[1.03]" /> : <span className="flex h-28 w-24 shrink-0 items-center justify-center bg-muted text-muted-foreground"><Utensils /></span>}<span><span className="eyebrow text-gold">{categoryName(dish.category)}</span><strong className="mt-3 block font-display text-2xl font-medium leading-tight">{dish.name}</strong><span className="mt-3 block text-sm leading-6 text-muted-foreground">{dish.description[lang]}</span><span className="mt-4 block text-[10px] font-semibold uppercase text-terracotta">{text({ it: "Apri il piatto", en: "Open dish" })}</span></span></button></DepthCard>)}</div> : <div className="border border-border py-20 text-center"><p className="font-display text-4xl">Nessun piatto trovato</p><Button className="mt-6" onClick={() => { setQuery(""); setCategory("all"); }}>{text({ it: "Reimposta", en: "Reset" })}</Button></div>}
+    </div>
+    <Dialog open={Boolean(selected)} onOpenChange={(open) => { if (!open) setSelected(null); }}><DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto p-0 sm:rounded-none">{selected && <div className="grid md:grid-cols-2">{selected.image ? <img src={selected.image} alt={`Editorial image: ${selected.name}`} width={1280} height={1536} className="h-full min-h-64 w-full object-cover" /> : <div className="flex min-h-64 items-center justify-center bg-muted"><Utensils size={44} /></div>}<div className="p-8 md:p-10"><p className="eyebrow text-gold">{categoryName(selected.category)}</p><DialogTitle className="mt-4 font-display text-4xl font-medium leading-none">{selected.name}</DialogTitle><DialogDescription className="mt-8 text-base leading-7 text-foreground">{selected.description.it}</DialogDescription><div className="my-6 h-px bg-border" /><p className="text-sm leading-6 text-muted-foreground">{selected.description.en}</p><p className="mt-10 text-[10px] uppercase text-muted-foreground">{text({ it: "Immagine editoriale sostituibile · Prezzo e allergeni da confermare", en: "Replaceable editorial image · Price and allergens to be confirmed" })}</p></div></div>}</DialogContent></Dialog>
+  </>;
+}

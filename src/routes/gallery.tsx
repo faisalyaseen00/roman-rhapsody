@@ -1,0 +1,5 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { GalleryExperience } from "@/components/locanda/GalleryExperience";
+import { ReservationCTA } from "@/components/locanda/Sections";
+export const Route = createFileRoute("/gallery")({ head: () => ({ meta: [{ title: "Gallery | La Locanda del Tempio" }, { name: "description", content: "A visual concept of Italian dining, Roman atmosphere, dishes and aperitivo for La Locanda del Tempio." }, { property: "og:title", content: "Gallery | La Locanda del Tempio" }, { property: "og:description", content: "Italian dining and Roman atmosphere." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "canonical", href: "/gallery" }] }), component: GalleryPage });
+function GalleryPage() { return <><header className="page-hero"><p className="eyebrow text-gold">Immagini & Atmosfera</p><h1>Gallery</h1><p>Un racconto editoriale di cucina italiana e atmosfera romana.</p></header><section className="section-shell pt-12"><GalleryExperience /></section><ReservationCTA /></>; }
