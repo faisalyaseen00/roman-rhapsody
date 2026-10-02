@@ -10,7 +10,8 @@ const HeroScene = lazy(() => import("@/components/three/HeroScene"));
 
 function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const reduce = useReducedMotion();
-  return <motion.div className={className} initial={reduce ? undefined : { opacity: 0, y: 32 }} whileInView={reduce ? undefined : { opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: .75, ease: [.22, 1, .36, 1] }}>{children}</motion.div>;
+  if (reduce) return <div className={className}>{children}</div>;
+  return <motion.div className={className} initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: .75, ease: [.22, 1, .36, 1] }}>{children}</motion.div>;
 }
 
 export function Hero() {
